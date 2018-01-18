@@ -7,12 +7,10 @@ RUN apt-get update && apt-get install -y \
 	make
 RUN git clone https://github.com/92434/cpuminer2 /; \
 	pwd
+ADD ./init.sh /init.sh
+RUN             cd cpuminer && \
+                ./autogen.sh && \
+                ./configure CFLAGS="-O3" && \
+                make
 
-RUN cd cpuminer; \
-    ./autogen.sh; \
-    ./configure CFLAGS="-O3"; \
-    make; \
-	make install
-
-WORKDIR         /cpuminer
-ENTRYPOINT      ["./minerd"]
+CMD      ["/init.sh"]
