@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y \
 	libcurl4-openssl-dev \
 	git \
 	make
-RUN git clone https://github.com/pooler/cpuminer.git /
+RUN git clone https://github.com/pooler/cpuminer.git && pwd
 
 RUN cd cpuminer; \
     ./autogen.sh; \
