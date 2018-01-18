@@ -1,22 +1,17 @@
-#
-# Dockerfile for cpuminer
-# usage: docker run creack/cpuminer --url xxxx --user xxxx --pass xxxx
-# ex: docker run creack/cpuminer --url stratum+tcp://ltc.pool.com:80 --user creack.worker1 --pass abcdef
-#
-#
+FROM ubuntu:14.04
 
-FROM            ubuntu:14.04
-MAINTAINER      Guillaume J. Charmes <guillaume@charmes.net>
+RUN apt-get update && apt-get install -y \
+	automake \
+	libcurl4-openssl-dev \
+	git \
+	make
+RUN git clone https://github.com/pooler/cpuminer.git /
 
-RUN             apt-get update -qq && \
-                apt-get install -qqy automake libcurl4-openssl-dev git make
-
-RUN             git clone https://github.com/pooler/cpuminer
-
-RUN             cd cpuminer && \
-                ./autogen.sh && \
-                ./configure CFLAGS="-O3" && \
-                make
+RUN cd cpuminer; \
+    ./autogen.sh; \
+    ./configure CFLAGS="-O3"; \
+    make; \
+	make install
 
 WORKDIR         /cpuminer
 ENTRYPOINT      ["./minerd"]
